@@ -1,37 +1,32 @@
 from logging.config import fileConfig
-
+from alembic import context
 from sqlalchemy import engine_from_config, pool
 
-from alembic import context
 from src.db.base import Base
+from src.core.settings import settings  # <-- loads your .env
 
-# this is the Alembic Config object, which provides
-# access to the values within the .ini file in use.
 config = context.config
 
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 
-# target_metadata = mymodel.Base.metadata
+print("DATABASE_URL =>", settings.DATABASE_URL)
+
 target_metadata = Base.metadata
 
 
-def run_migrations_offline() -> None:
-    """Run migrations in 'offline' mode.
-
-    This configures the context with just a URL
-    and not an Engine, though an Engine is acceptable
-    here as well.  By skipping the Engine creation
-    we don't even need a DBAPI to be available.
-
-    Calls to context.execute() here emit the given string to the
-    script output.
-
+def get_sync_url():
     """
-    url = config.get_main_option("sqlalchemy.url")
+    Convert async URL to sync URL for Alembic.
+    """
+    url = settings.DATABASE_URL  # <-- read from your .env via settings.py
+    return url.replace("postgresql+asyncpg://", "postgresql+psycopg://")
+
+
+def run_migrations_offline():
+    url = get_sync_url()
+
     context.configure(
         url=url,
         target_metadata=target_metadata,
@@ -43,15 +38,11 @@ def run_migrations_offline() -> None:
         context.run_migrations()
 
 
-def run_migrations_online() -> None:
-    """Run migrations in 'online' mode.
+def run_migrations_online():
+    sync_url = get_sync_url()
 
-    In this scenario we need to create an Engine
-    and associate a connection with the context.
-
-    """
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
+        {"sqlalchemy.url": sync_url},
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
