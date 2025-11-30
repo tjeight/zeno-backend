@@ -1,11 +1,65 @@
-# Ignore virtual environment directories
-.venv/
+# ============================================
+# PYTHON & FASTAPI STANDARD GITIGNORE
+# ============================================
 
-# Ignore Python cache files
+# Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Python cache
 __pycache__/
 *.py[cod]
+*$py.class
+
+# Bytecode & compiled files
+*.so
+*.pyd
+*.pyo
+
+# ============================================
+# ENVIRONMENT FILES (VERY IMPORTANT)
+# ============================================
+.env
+.env.*        # .env.dev, .env.prod etc
+*.env         # ANY ENV file
+
+# ============================================
+# SETTINGS / SECRET KEYS (IF ANY)
+# ============================================
+secret.key
+*.pem
+*.key
+*.cert
+
+# ============================================
+# EDITOR / IDE FILES
+# ============================================
+.vscode/
+.idea/
+*.swp
+
+
+# ============================================
+# BUILD / DIST FILES
+# ============================================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# ============================================
+# ALEMBIC VERSIONS CACHE
+# ============================================
+alembic/__pycache__/
+alembic/versions/__pycache__/
 
 
 
-
+# ============================================
+# UV / PIP SPECIFIC
+# ============================================
+uv.lock
+pip-wheel-metadata/
 
