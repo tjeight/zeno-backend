@@ -12,5 +12,6 @@ dependencies = [
     "psycopg>=3.2.13",
     "psycopg-binary>=3.2.13",
     "pydantic-settings>=2.12.0",
+    "python-jose>=3.5.0",
     "uuid6>=2025.0.1",
 ]
