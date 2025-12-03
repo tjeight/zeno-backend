@@ -10,11 +10,13 @@ from src.utils.generators import generate_uuid
 
 # Class to handle the User
 class User(Base):
-    __tablename__ = "User"
+    __tablename__ = "user"
     user_id: Mapped[TypeUUID] = mapped_column(
         UUID, primary_key=True, default=generate_uuid
     )
-    user_email: Mapped[str] = mapped_column(String, index=True, nullable=False)
+    user_email: Mapped[str] = mapped_column(
+        String, index=True, nullable=False, unique=True
+    )
     hashed_password: Mapped[str] = mapped_column(String, nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
 

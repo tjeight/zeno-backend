@@ -18,3 +18,9 @@ class UserResponse(BaseModel):
         "from_attributes": True,
         "arbitrary_types_allowed": True,
     }
+
+
+#  Schema to handle the user login
+class LoginSchema(BaseModel):
+    email: EmailStr
+    password: str

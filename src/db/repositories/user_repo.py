@@ -11,8 +11,8 @@ async def create_user(db: AsyncSession, user: User):
     return user
 
 
-async def get_user_by_email(db: AsyncSession, email: str):
-    """Repo function to get the user by email"""
-    statement = select(User).where(User.user_email == email)
-    result = await db.execute(statement)
-    return result.scalars().first()
+#  verify the identity of the user through the email and password
+async def get_user_by_email(db: AsyncSession, email: str) -> User | None:
+    """Repo function to get user by email"""
+    result = await db.execute(select(User).where(User.user_email == email))
+    return result.scalar_one_or_none()

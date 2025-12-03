@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
 
     # Refresh Token
-    REFRESH_TOKEN_EXPIRE_MINUTES = 60
+    REFRESH_TOKEN_EXPIRE_MINUTES: int = 60
 
     class Config:
         # Specify the .env file to load environment variables from
