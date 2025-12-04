@@ -1,10 +1,21 @@
+import hashlib
 from datetime import datetime, timedelta
 
-from passlib.context import CryptContext
 from jose import jwt
+from passlib.context import CryptContext
+
 from src.core.settings import settings
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+# src/core/security.py
+
+
+def hash_refresh_token(token: str) -> str:
+    """
+    Hash the refresh token using SHA-256 before storing in DB.
+    Never store raw refresh tokens!
+    """
+    return hashlib.sha256(token.encode()).hexdigest()
 
 
 def hash_password(password: str) -> str:

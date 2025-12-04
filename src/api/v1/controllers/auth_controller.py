@@ -1,7 +1,12 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.api.v1.schemas.user_schema import LoginSchema
 from src.db.repositories.user_repo import get_user_by_email
-from src.services.auth_service import login_user_service, register_user_service
+from src.services.auth_service import (
+    login_user_service,
+    refresh_token_service,
+    register_user_service,
+)
 
 
 async def user_register_controller(payload, db):
@@ -21,5 +26,17 @@ async def user_login_controller(
 
     #  get the token
     access_token, refresh_token = await login_user_service(db, payload)
+
+    return access_token, refresh_token
+
+
+async def refresh_access_token_controller(
+    db: AsyncSession, refresh_token: str
+) -> tuple[str, str]:
+    # get the accress token and refresh token
+
+    access_token, refresh_token = await refresh_token_service(
+        db=db, refresh_token=refresh_token
+    )
 
     return access_token, refresh_token
